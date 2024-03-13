@@ -1,10 +1,15 @@
 from flask import Blueprint, request, jsonify
 from flask_pymongo import PyMongo
 from bson import ObjectId
+from flask_caching import Cache
+
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+app.config['CACHE_TYPE'] = 'simple'
 mongo = PyMongo(app).db
+cache = Cache(app)
+
 
 product_bp = Blueprint('product', __name__)
 
@@ -20,6 +25,7 @@ def create_product():
         return jsonify({'error': str(e)}), 500
 
 @product_bp.route('/products', methods=['GET'])
+@cache.cached(timeout=50, query_string=True)  # Caches for 50 seconds, considering the query string
 def get_products():
     try:
         query_params = request.args
