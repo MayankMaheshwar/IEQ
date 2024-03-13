@@ -25,12 +25,12 @@ def create_product():
         return jsonify({'error': str(e)}), 500
 
 @product_bp.route('/products', methods=['GET'])
-@cache.cached(timeout=50, query_string=True)  # Caches for 50 seconds, considering the query string
+@cache.cached(timeout=50, query_string=True)
 def get_products():
     try:
         query_params = request.args
         search_term = query_params.get('search', '')
-        sort_by = query_params.get('sort', 'name')  # default sorting by name
+        sort_by = query_params.get('sort', 'name')
         order = DESCENDING if query_params.get('order', 'desc') == 'desc' else ASCENDING
         
         filter_field = query_params.get('filter_field', '')

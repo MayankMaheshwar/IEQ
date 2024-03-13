@@ -5,8 +5,7 @@ def role_required(required_types):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            # In a real scenario, extract the user's type from a secure source like JWT token after authentication
-            user_type = request.headers.get('Type')
+            user_type = request.headers.get('type')
 
             if user_type not in required_types:
                 return jsonify({'message': 'You do not have permission to access this resource'}), 403
