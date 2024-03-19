@@ -1,8 +1,12 @@
 from flask import request, jsonify
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash
-from . import auth_bp
 from app.services.auth_service import create_user, validate_user
+from flask import Blueprint
+
+
+auth_bp = Blueprint('auth', __name__)
+
 
 @auth_bp.route('/signup', methods=['POST'])
 def signup():
@@ -13,6 +17,7 @@ def signup():
         password = data.get('password')
         user_type = data.get('user_type')
 
+        print(username, email,password,user_type)
         if not username or not email or not password or not user_type:
             return jsonify({'message': 'Missing data'}), 400
 
@@ -28,6 +33,7 @@ def signup():
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/login', methods=['POST'])
+
 def login():
     try:
         data = request.json

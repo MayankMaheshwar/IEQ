@@ -1,11 +1,14 @@
 from flask import request, jsonify, Blueprint
-from flask_pymongo import PyMongo
 from werkzeug.security import check_password_hash
 from bson import ObjectId
 import json
+from flask import Blueprint
+from app import mongo
+
+
 
 customer_bp = Blueprint('customer', __name__)
-mongo = PyMongo().db
+
 
 @customer_bp.route('/customers', methods=['POST'])
 def create_customer():

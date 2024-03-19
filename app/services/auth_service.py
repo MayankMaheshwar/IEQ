@@ -1,9 +1,6 @@
-from flask_pymongo import PyMongo
 from werkzeug.security import check_password_hash
-from app import create_app
+from app import mongo
 
-app = create_app()
-mongo = PyMongo(app)
 
 def create_user(username, email, password, user_type):
     try:

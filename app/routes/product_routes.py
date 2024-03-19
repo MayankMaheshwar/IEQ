@@ -1,17 +1,19 @@
-from flask import Blueprint, request, jsonify
-from flask_pymongo import PyMongo
+from flask import Blueprint, request, jsonify, Flask
 from bson import ObjectId
-from flask_caching import Cache
+from flask import Blueprint
+from app import mongo, cache
+
+product_bp = Blueprint('product', __name__)
 
 
-app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
-app.config['CACHE_TYPE'] = 'simple'
-mongo = PyMongo(app).db
-cache = Cache(app)
 
 
 product_bp = Blueprint('product', __name__)
+
+@product_bp.route('/', methods=['GET'])
+def index():
+    return jsonify({"Mayank":"IEQ assignment"}), 200
+
 
 @product_bp.route('/products', methods=['POST'])
 def create_product():
