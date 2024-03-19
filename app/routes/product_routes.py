@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify, Flask
 from bson import ObjectId
 from flask import Blueprint
 from app import mongo, cache
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from utils.security import role_required
 product_bp = Blueprint('product', __name__)
 
 
@@ -16,6 +17,7 @@ def index():
 
 
 @product_bp.route('/products', methods=['POST'])
+@role_required(['admin', 'seller'])
 def create_product():
     try:
         data = request.json
@@ -48,22 +50,28 @@ def get_products():
         return jsonify({'error': str(e)}), 500
 
 @product_bp.route('/products/<id>', methods=['PUT'])
+@jwt_required()
 def update_product(id):
     try:
-        data = request.json
-        result = mongo.products.update_one({'_id': ObjectId(id)}, {'$set': data})
-        if result.matched_count == 0:
-            return jsonify({'error': 'Product not found'}), 404
-        return jsonify({'message': 'Product updated'}), 200
+        current_user = get_jwt_identity()
+        if current_user:
+            data = request.json
+            result = mongo.products.update_one({'_id': ObjectId(id)}, {'$set': data})
+            if result.matched_count == 0:
+                return jsonify({'error': 'Product not found'}), 404
+            return jsonify({'message': 'Product updated'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @product_bp.route('/products/<id>', methods=['DELETE'])
+@jwt_required()
 def delete_product(id):
     try:
-        result = mongo.products.delete_one({'_id': ObjectId(id)})
-        if result.deleted_count == 0:
-            return jsonify({'error': 'Product not found'}), 404
-        return jsonify({'message': 'Product deleted'}), 200
+        current_user = get_jwt_identity()
+        if current_user:
+            result = mongo.products.delete_one({'_id': ObjectId(id)})
+            if result.deleted_count == 0:
+                return jsonify({'error': 'Product not found'}), 404
+            return jsonify({'message': 'Product deleted'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -33,7 +33,6 @@ def signup():
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/login', methods=['POST'])
-
 def login():
     try:
         data = request.json
