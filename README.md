@@ -124,29 +124,3 @@ pip install -r requirements.txt
 
 ---
 
-## 📁 Project Structure (Suggested)
-
-```
-ieq-monorepo/
-├── products/
-│   └── app.py
-├── customers/
-│   └── app.py
-├── shared/
-│   └── utils/
-├── requirements.txt
-└── README.md
-```
-
----
-
-## 🚀 Running the Services
-
-```bash
-# Run each service individually
-cd products && python app.py
-cd customers && python app.py
-```
-
----
-
