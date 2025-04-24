@@ -1,50 +1,152 @@
-# IEQ
+# 🧹 IEQ - Monorepo Microservices System
 
+This project is a scalable monorepo-based microservices architecture, designed with security, reliability, and modularity in mind. Each microservice handles a specific domain (e.g., Products, Customers) and communicates via RESTful APIs.
 
-Design the system of monorepo microservices
-microservices will help in scalability, used JST token and hashing for security, proper error try-catch for reliability
-tools and libraries are mentioned in requirements.txt
+---
 
+## ⚙️ Features
 
-. Products Endpoint
+- ✅ Microservices for modular and scalable architecture
+- 🔐 JWT token-based authentication and password hashing for security
+- 💥 Centralized error handling with try-catch blocks for reliability
+- 📦 Monorepo structure for easier dependency and code management
 
-Create a Product (POST): /products
+---
 
-Body: { "name": "Product Name", "price": 19.99, "category": "Product Category" }
-Response: 201 Created with product details or 400 Bad Request if data is missing.
+## 📁 Microservices
 
-Get All Products (GET): /products
+### 1. **Products Service**
 
-Query Parameters: search, sort, order
-Response: 200 OK with a list of products.
+Handles product-related operations.
 
-Update a Product (PUT): /products/<id>
+#### ➕ Create a Product
+- **Endpoint**: `POST /products`
+- **Request Body**:
+  ```json
+  {
+    "name": "Product Name",
+    "price": 19.99,
+    "category": "Product Category"
+  }
+  ```
+- **Responses**:
+  - `201 Created` — Product created successfully
+  - `400 Bad Request` — Missing or invalid data
 
-Body: { "name": "New Product Name", "price": 29.99 }
-Response: 200 OK with updated product details or 404 Not Found if product doesn't exist.
+#### 📆 Get All Products
+- **Endpoint**: `GET /products`
+- **Query Parameters**:
+  - `search`: Filter products by name or category
+  - `sort`: Field to sort by (e.g., name, price)
+  - `order`: `asc` or `desc`
+- **Response**:
+  - `200 OK` — Returns a list of products
 
-Delete a Product (DELETE): /products/<id>
+#### ✏️ Update a Product
+- **Endpoint**: `PUT /products/<id>`
+- **Request Body**:
+  ```json
+  {
+    "name": "New Product Name",
+    "price": 29.99
+  }
+  ```
+- **Responses**:
+  - `200 OK` — Product updated successfully
+  - `404 Not Found` — Product not found
 
-Response: 200 OK if deletion was successful or 404 Not Found if product doesn't exist.
+#### ❌ Delete a Product
+- **Endpoint**: `DELETE /products/<id>`
+- **Responses**:
+  - `200 OK` — Product deleted successfully
+  - `404 Not Found` — Product not found
 
+---
 
+### 2. **Customers Service**
 
-. Customers Endpoint
+Handles customer-related operations.
 
-Create a Customer (POST): /customers
+#### ➕ Create a Customer
+- **Endpoint**: `POST /customers`
+- **Request Body**:
+  ```json
+  {
+    "name": "Customer Name",
+    "email": "customer@example.com"
+  }
+  ```
+- **Responses**:
+  - `201 Created` — Customer created successfully
+  - `400 Bad Request` — Missing or invalid data
 
-Body: { "name": "Customer Name", "email": "customer@example.com" }
-Response: 201 Created with customer details or 400 Bad Request if data is missing.
+#### 👤 Get Customer Details
+- **Endpoint**: `GET /customers/<id>`
+- **Response**:
+  - `200 OK` — Returns customer details
+  - `404 Not Found` — Customer not found
 
-Get Customer Details (GET): /customers/<id>
+#### ✏️ Update Customer Details
+- **Endpoint**: `PUT /customers/<id>`
+- **Request Body**:
+  ```json
+  {
+    "name": "Updated Name",
+    "email": "updated@example.com"
+  }
+  ```
+- **Responses**:
+  - `200 OK` — Customer updated successfully
+  - `404 Not Found` — Customer not found
 
-Response: 200 OK with customer details or 404 Not Found if the customer doesn't exist.
+#### ❌ Delete a Customer
+- **Endpoint**: `DELETE /customers/<id>`
+- **Responses**:
+  - `200 OK` — Customer deleted successfully
+  - `404 Not Found` — Customer not found
 
-Update Customer Details (PUT): /customers/<id>
+---
 
-Body: { "name": "Updated Name", "email": "updated@example.com" }
-Response: 200 OK with updated customer details or 404 Not Found if the customer doesn't exist.
+## 🔒 Security
 
+- JWT-based user authentication
+- Hashing (e.g., bcrypt) for sensitive data like passwords
 
-Delete a Customer (DELETE): /customers/<id>
-Response: 200 OK if deletion was successful or 404 Not Found if the customer doesn't exist.
+---
+
+## 📦 Dependencies
+
+All necessary tools and libraries are listed in `requirements.txt`.
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 📁 Project Structure (Suggested)
+
+```
+ieq-monorepo/
+├── products/
+│   └── app.py
+├── customers/
+│   └── app.py
+├── shared/
+│   └── utils/
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🚀 Running the Services
+
+```bash
+# Run each service individually
+cd products && python app.py
+cd customers && python app.py
+```
+
+---
+
